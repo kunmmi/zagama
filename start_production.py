@@ -24,11 +24,10 @@ def run_health_server():
     """Run the health check server in a separate process"""
     try:
         from health_check import app
-        import uvicorn
-        
         port = int(os.getenv("PORT", 8000))
         logger.info(f"Starting health check server on port {port}")
-        uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
+        # Use Flask's built-in server
+        app.run(host="0.0.0.0", port=port)
     except Exception as e:
         logger.error(f"Health server error: {str(e)}")
 
