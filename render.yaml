@@ -1,21 +1,22 @@
-services:
-  - type: web
-    name: beartech-bot
-    env: python
-    plan: free
-    buildCommand: pip install --no-cache-dir -r requirements.txt
-    startCommand: python start_production.py
-      envVars:
-          - key: TELEGRAM_BOT_TOKEN
-            sync: false
-          - key: GOPLUS_API_KEY
-            value: Y0ZVbTgCm8G40GbczyAD
-          - key: ETHERSCAN_API_KEY
-            sync: false
-          - key: BASESCAN_API_KEY
-            sync: false
-          - key: PYTHON_VERSION
-            value: 3.11.0
-      healthCheckPath: /health
-      autoDeploy: true
+# Core dependencies
+python-telegram-bot==20.7
+aiohttp==3.9.1
 
+# Env handling
+python-dotenv==1.0.0
+
+# HTTP and API clients
+requests==2.31.0
+httpx==0.25.2
+
+# Date and time handling
+python-dateutil==2.8.2
+
+# Web framework (for health checks)
+Flask==3.0.3
+
+# Additional utilities
+certifi==2023.11.17
+charset-normalizer==3.3.2
+idna==3.6
+urllib3==2.1.0
