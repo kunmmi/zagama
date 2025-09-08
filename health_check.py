@@ -2,37 +2,33 @@
 """
 Health check endpoint for Render deployment
 """
-from fastapi import FastAPI
-import uvicorn
+from flask import Flask, jsonify
 import os
 from datetime import datetime
 
-app = FastAPI(title="BearTech Bot Health Check")
+app = Flask(__name__)
 
 @app.get("/")
-async def root():
-    """Root endpoint"""
-    return {
+def root():
+    return jsonify({
         "service": "BearTech Token Analysis Bot",
         "status": "running",
         "timestamp": datetime.utcnow().isoformat(),
         "version": "1.0.0"
-    }
+    })
 
 @app.get("/health")
-async def health_check():
-    """Health check endpoint for Render"""
-    return {
+def health_check():
+    return jsonify({
         "status": "healthy",
         "service": "BearTech Bot",
         "timestamp": datetime.utcnow().isoformat(),
         "environment": os.getenv("RENDER", "local")
-    }
+    })
 
 @app.get("/status")
-async def status():
-    """Detailed status endpoint"""
-    return {
+def status():
+    return jsonify({
         "service": "BearTech Token Analysis Bot",
         "status": "operational",
         "timestamp": datetime.utcnow().isoformat(),
@@ -42,8 +38,8 @@ async def status():
             "telegram_token_set": bool(os.getenv("TELEGRAM_BOT_TOKEN")),
             "goplus_key_set": bool(os.getenv("GOPLUS_API_KEY"))
         }
-    }
+    })
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port)
